@@ -1,5 +1,4 @@
 #include <point.h>
-#include "canvas.h"
 
 using namespace std; 
 
@@ -27,7 +26,7 @@ public:
 private:
   double lagrange(int i, double t) const {
     float nominator = 1;
-    float denominator =1;
+    float denominator = 1;
     for (int j = 0; j < CVs.size(); j++) {
       if (j != i) {
         nominator *= t - ti[j];
@@ -39,11 +38,11 @@ private:
 };
 
 template<typename T> 
-PointList sampling(const T& curve, double t0, double t1, int steps) {
-  double dt = (t1-t0)/steps; 
-  double t = t0;
+PointList sampling(const T& curve, double a, double b, int segments) {
+  double dt = (b-a)/segments; 
+  double t = a;
   PointList result;
-  for (int i = 0; i < steps+1; i++,t+=dt) {
+  for (int i = 0; i < segments+1; i++,t+=dt) {
     result.push_back(curve.evaluate(t));
   }
   return result; 
