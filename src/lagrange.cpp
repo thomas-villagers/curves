@@ -1,12 +1,10 @@
 #include <point.h>
 
-using namespace std; 
-
 class Lagrange {
 
 public: 
   PointList CVs; 
-  vector<double> ti; 
+  std::vector<double> ti; 
 
   Lagrange(std::initializer_list<Point> p) {
     std::copy(p.begin(), p.end(), back_inserter(CVs)); 
@@ -49,7 +47,7 @@ PointList sampling(const T& curve, double a, double b, int segments) {
 }
 
 int main() {
-  auto curve = Lagrange({{10,10},{70,100},{130,10},{190,100},{250,10}});
-  PointList points = sampling(curve, curve.ti[0], curve.ti.back(), 40);  
+  auto curve = Lagrange({{1,0},{2,2},{3,1},{4,4},{5,2}});
+  PointList points = sampling(curve, curve.ti[0], curve.ti.back(), 50);  
   return 0; 
 }
