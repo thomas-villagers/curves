@@ -7,13 +7,13 @@ template<int n> class LeastSquares {
 
 public: 
   PointList CVs;
-  std::vector<int> ti; 
+  std::vector<double> ti; 
   VectorXd cx, cy; 
 
   LeastSquares(std::initializer_list<Point> pi) {
     copy(pi.begin(), pi.end(), back_inserter(CVs)); 
-    for (int i = 0; i < CVs.size(); i++) {  // aequidistant 
-      ti.push_back(i); 
+    for (int i = 0; i < CVs.size(); i++) { 
+      ti.push_back(i); // aequidistant 
     }
     MatrixXd M(CVs.size(),n+1); 
     for (int i = 0; i < CVs.size(); i++) {

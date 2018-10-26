@@ -8,8 +8,8 @@ public:
 
   Lagrange(std::initializer_list<Point> p) {
     std::copy(p.begin(), p.end(), back_inserter(CVs)); 
-    for (int i = 0; i < CVs.size(); i++) {  // aequidistant 
-      ti.push_back(i); 
+    for (int i = 0; i < CVs.size(); i++) { 
+      ti.push_back(i);  // aequidistant 
     }
   } 
 
