@@ -21,8 +21,6 @@ public:
     this->x *= s; this->y *= s;
     return *this; 
   }
-
-
 };
 
 const Point operator+(const Point& lhs, const Point& rhs) {
