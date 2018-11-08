@@ -49,4 +49,4 @@ std::ostream& operator<<(std::ostream& os, const Point& point) {
   os << "(" << point.x << "," << point.y << ")"; 
 }
 
-typedef std::vector<Point> PointList;
+typedef std::vector<Point> Points;

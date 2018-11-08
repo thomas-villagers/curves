@@ -1,31 +1,26 @@
 #include <eigen/Eigen/Dense> 
 #include "point.h" 
 
-using namespace Eigen;
-
 template<int n> class LeastSquares {
-
 public: 
-  PointList CVs;
   std::vector<double> ti; 
-  VectorXd cx, cy; 
+  Eigen::VectorXd cx, cy; 
 
-  LeastSquares(std::initializer_list<Point> pi) {
-    copy(pi.begin(), pi.end(), back_inserter(CVs)); 
-    for (int i = 0; i < CVs.size(); i++) { 
+  LeastSquares(const Points& pi) {
+    for (int i = 0; i < pi.size(); i++) { 
       ti.push_back(i); // aequidistant 
     }
-    MatrixXd M(CVs.size(),n+1); 
-    for (int i = 0; i < CVs.size(); i++) {
+    Eigen::MatrixXd M(pi.size(),n+1); 
+    for (int i = 0; i < pi.size(); i++) {
       for (int j = 0; j < n+1; j++) {
         M(i,j) = monomialBasis(ti[i], j); 
       }
     }
-    VectorXd bx(CVs.size());
-    VectorXd by(CVs.size());
-    for (int i = 0; i < CVs.size(); i++) {
-      bx(i) = CVs[i].x; 
-      by(i) = CVs[i].y;
+    Eigen::VectorXd bx(pi.size());
+    Eigen::VectorXd by(pi.size());
+    for (int i = 0; i < pi.size(); i++) {
+      bx(i) = pi[i].x; 
+      by(i) = pi[i].y;
     }
     cx = M.colPivHouseholderQr().solve(bx);
     cy = M.colPivHouseholderQr().solve(by);
@@ -52,6 +47,6 @@ private:
 
 int main() {
   auto curve = LeastSquares<3>({{1,0},{2,2},{3,1},{4,4},{5,2}});  
-  PointList points = sampling(curve,curve.ti[0], curve.ti.back(), 30);
+  Points points = sampling(curve,curve.ti[0], curve.ti.back(), 30);
   return 0;
 }

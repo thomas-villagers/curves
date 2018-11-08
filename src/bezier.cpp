@@ -1,51 +1,48 @@
 #include "point.h"
 
 class BezierCurve {
-
 public:
-  PointList CVs; 
+  Points bi; 
 
-  BezierCurve(std::initializer_list<Point> pi) {
-    std::copy(pi.begin(), pi.end(), back_inserter(CVs)); 
-  } 
+  BezierCurve(const Points& bi) : bi(bi) { }
 
-  int degree() { return CVs.size()-1; }
+  int degree() const { return bi.size()-1; }
 
-  Point deCasteljau(double t) {
-    PointList bi; 
-    std::copy(CVs.begin(), CVs.end(), back_inserter(bi));
-    for (int i = 0; i < degree(); i++) { 
-      bi = deCasteljauStep(bi, t);
-    }
-    return bi[0];
-  }
+  Point evaluate(double t) const { return deCasteljau(t); }
 
-  PointList subdivide(int iterations) {
-    return subdivide(CVs, iterations);
+  Points subdivide(int iterations) const {
+    return subdivide(bi, iterations);
   }
 
 private:
-  PointList deCasteljauStep(const PointList& CVs, double t) {
-    PointList bi(CVs.size()-1); 
-    for (int i = 0; i < CVs.size()-1; i++) {
-      bi[i] = (CVs[i]*(1-t) + CVs[i+1]*t); 
+  Point deCasteljau(double t) const {
+    Points bir(bi); 
+    for (int r = 0; r <= degree(); r++) { 
+      bir = deCasteljauStep(bir, t);
     }
-    return bi; 
+    return bir[0];
   }
 
-  PointList subdivide(const PointList& CVs, int iterations) {
-    if (iterations == 0) return CVs;
-    PointList left, right;
-    subdivideStep(CVs, left, right);
+  Points deCasteljauStep(const Points& bi, double t) const {
+    Points bir(bi.size()-1); 
+    for (int i = 0; i < bi.size()-1; i++) {
+      bir[i] = bi[i]*(1-t) + bi[i+1]*t; 
+    }
+    return bir; 
+  }
+
+  Points subdivide(const Points& points, int iterations) const {
+    if (iterations == 0) return points;
+    Points left, right;
+    subdivideStep(points, left, right);
     left = subdivide(left, iterations-1);
     right = subdivide(right, iterations-1); 
     left.insert(left.end(), right.begin()+1, right.end());
     return left;     
   }
 
-  void subdivideStep(const PointList& CVs, PointList &left, PointList &right) {
-    PointList bi;
-    copy(CVs.begin(), CVs.end(), back_inserter(bi)); 
+  void subdivideStep(const Points& pi, Points &left, Points &right) const {
+    Points bi(pi);
     left.push_back(bi[0]);
     right.insert(right.begin(), bi.back()); 
     for (int i = 0; i < degree(); i++) {
