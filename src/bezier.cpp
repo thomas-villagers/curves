@@ -4,10 +4,8 @@ class BezierCurve {
 public:
   Points bi; 
 
-  BezierCurve(const Points& bi) : bi(bi) { }
-
+  BezierCurve(const Points& bi) : bi(bi) {}
   int degree() const { return bi.size()-1; }
-
   Point evaluate(double t) const { return deCasteljau(t); }
 
   Points subdivide(int iterations) const {
