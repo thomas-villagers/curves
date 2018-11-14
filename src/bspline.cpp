@@ -61,7 +61,7 @@ private:
   int findKnotInterval(double t) const {
     if (t >=  T.back()) return T.size()-n-2; 
     assert(t >= T[n]); 
-    return findKnotInterval(0, T.size(), t);
+    return findKnotInterval(n, T.size(), t);
   }
 
   int findKnotInterval(int a, int b, double t) const {

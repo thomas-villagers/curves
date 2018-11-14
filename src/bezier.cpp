@@ -15,7 +15,7 @@ public:
 private:
   Point deCasteljau(double t) const {
     Points bir(bi); 
-    for (int r = 0; r <= degree(); r++) { 
+    for (int r = 1; r <= degree(); r++) { 
       bir = deCasteljauStep(bir, t);
     }
     return bir[0];
